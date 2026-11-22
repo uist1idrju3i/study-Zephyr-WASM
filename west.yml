@@ -1,0 +1,30 @@
+manifest:
+  version: "0.13"
+
+  remotes:
+    - name: ncs
+      url-base: https://github.com/nrfconnect
+    - name: wasm-micro-runtime
+      url-base: https://github.com/wasm-micro-runtime
+
+  projects:
+    # nRF Connect SDK v3.4.2 (first NCS LTS line, 5-year patch support).
+    # Imports the full NCS manifest (sdk-nrf's west.yml), which in turn
+    # imports Zephyr 4.4.2 via its own name-allowlist.
+    - name: nrf
+      remote: ncs
+      repo-path: sdk-nrf
+      revision: v3.4.2
+      import: true
+
+    # WebAssembly Micro Runtime (WAMR) as a Zephyr module.
+    # Not part of the NCS manifest. Pinned to a main-branch commit that
+    # carries the Kconfig/CMake module glue (zephyr/module.yml), newer
+    # than the WAMR-2.4.6 tag which predates it.
+    - name: wasm-micro-runtime
+      remote: wasm-micro-runtime
+      revision: 06f6c8c6e64e75eee6b8a3ce06ac2c7d10d015bf
+      path: modules/wasm-micro-runtime
+
+  self:
+    path: study-Zephyr-WASM
