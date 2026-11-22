@@ -29,6 +29,7 @@ ExternalProject_Add(wasm_app
   BUILD_COMMAND     ${CMAKE_COMMAND} --build build
   INSTALL_COMMAND   ${CMAKE_COMMAND} --install build --prefix ${CMAKE_CURRENT_BINARY_DIR}/wasm-app
   BUILD_ALWAYS      TRUE
+  INSTALL_BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/wasm-app/test_wasm.wasm
 )
 
 set(WASM_HEADER ${CMAKE_CURRENT_BINARY_DIR}/generated/test_wasm.h)
@@ -39,7 +40,7 @@ add_custom_command(
             -DOUTPUT=${WASM_HEADER}
             -DSYMBOL=wasm_test_file
             -P ${WAMR_ROOT_DIR}/product-mini/platforms/zephyr/cmake/bin_to_header.cmake
-  DEPENDS wasm_app
+  DEPENDS wasm_app ${CMAKE_CURRENT_BINARY_DIR}/wasm-app/test_wasm.wasm
   COMMENT "Generating test_wasm.h from test_wasm.wasm"
   VERBATIM
 )
